@@ -1,7 +1,8 @@
 import "./App.css"
 
-import {Canvas} from "@react-three/fiber"
+import {Canvas, SceneProps} from "@react-three/fiber"
 import {Ball} from "assets/core/Ball"
+import {useCallback, useEffect, useRef} from "react"
 import styled from "styled-components"
 
 /*
@@ -19,12 +20,32 @@ const StyledRoot = styled.div`
  */
 
 export const App: React.FC = () => {
+  const sceneRef = useRef<SceneProps>(null)
+
+  const exportScene = useCallback(() => {
+    if (!sceneRef.current) {
+      return
+    }
+
+    return JSON.stringify(sceneRef.current.toJSON())
+  }, [])
+
+  useEffect(() => {
+    ;(window as any).exportScene = () => exportScene()
+
+    return () => {
+      delete (window as any).exportScene
+    }
+  }, [exportScene])
+
   return (
     <StyledRoot>
       <Canvas>
-        <ambientLight />
-        <pointLight position={[10, 10, 10]} />
-        <Ball />
+        <scene ref={sceneRef}>
+          <ambientLight />
+          <pointLight position={[10, 10, 10]} />
+          <Ball />
+        </scene>
       </Canvas>
     </StyledRoot>
   )
