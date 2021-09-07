@@ -1,26 +1,31 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import "./App.css"
 
-function App() {
+import {Canvas} from "@react-three/fiber"
+import {Ball} from "assets/core/Ball"
+import styled from "styled-components"
+
+/*
+ * Styles.
+ */
+
+const StyledRoot = styled.div`
+  color: white;
+  background-color: black;
+  height: 100%;
+`
+
+/*
+ * Component.
+ */
+
+export const App: React.FC = () => {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+    <StyledRoot>
+      <Canvas>
+        <ambientLight />
+        <pointLight position={[10, 10, 10]} />
+        <Ball />
+      </Canvas>
+    </StyledRoot>
+  )
 }
-
-export default App;
