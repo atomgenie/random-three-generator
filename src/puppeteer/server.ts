@@ -10,10 +10,10 @@ export const startServer = async () => {
     })
   })
 
-  return new Promise<void>(resolve => {
+  return new Promise<() => void>(resolve => {
     server.listen(3000, () => {
       console.log("Running at http://localhost:3000")
-      resolve()
+      resolve(() => server.close())
     })
   })
 }
